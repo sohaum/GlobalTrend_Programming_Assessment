@@ -1,0 +1,68 @@
+#include <iostream>
+#include <climits>
+using namespace std;
+
+struct Node {
+    int data;
+    struct Node *left, *right;
+};
+
+struct Node* newNode(int data) {
+    struct Node* newNode = new Node;
+    newNode->data = data;
+    newNode->left = newNode->right = NULL;
+    return newNode;
+}
+
+int findMaxUtil(Node* root, int& res) {
+    if (root == NULL)
+        return 0;
+
+    int l = findMaxUtil(root->left, res);
+    int r = findMaxUtil(root->right, res);
+
+    int max_single = max(max(l, r) + root->data, root->data);
+    int max_top = max(max_single, l + r + root->data);
+
+    res = max(res, max_top);
+
+    return max_single;
+}
+
+int findMaxSum(Node* root) {
+    int res = INT_MIN;
+    findMaxUtil(root, res);
+    return res;
+}
+
+Node* insertNode() {
+    int data;
+    cout << "Enter data for the node (enter -1 for no node): ";
+    cin >> data;
+    if (data == -1) {
+        return NULL;
+    }
+    Node* root = newNode(data);
+    cout << "Enter left child of " << data << endl;
+    root->left = insertNode();
+    cout << "Enter right child of " << data << endl;
+    root->right = insertNode();
+    return root;
+}
+
+int main() {
+    cout << "Create the binary tree:" << endl;
+    Node* root = insertNode();
+
+    cout << "Max path sum is " << findMaxSum(root) << endl;
+    return 0;
+}
+
+
+//       10
+//       /  \
+//      2    10
+//     / \     \
+//   20  1    -25
+//           /  \
+//           3    4

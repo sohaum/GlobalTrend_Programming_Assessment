@@ -1,0 +1,22 @@
+#include <iostream>
+#include <string>
+#include <cctype> 
+using namespace std;
+
+bool isAlphabetic(const string& str) {
+    for (char c : str) {
+        if (!isalpha(c)) return false;
+    }
+    return true;
+}
+
+int main() {
+    string str;
+    cout << "Enter a string to check if it contains only alphabetic characters: ";
+    cin >> str;
+
+    bool result = isAlphabetic(str);
+    cout << boolalpha << "String contains only alphabetic characters: " << result << endl;
+
+    return 0;
+}

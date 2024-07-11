@@ -1,0 +1,34 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+void rotateArray(int arr[], int n, int k) {
+    k = k % n; // reduce k to its equivalent value within the array size
+    reverse(arr, arr + n); 
+    reverse(arr, arr + k); 
+    reverse(arr + k, arr + n); 
+}
+
+int main() {
+    int n, k;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    int* arr = new int[n];
+    cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    cout << "Enter the number of rotations: ";
+    cin >> k;
+
+    rotateArray(arr, n, k);
+
+    cout << "Array after " << k << " right rotations: ";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    delete[] arr;
+    return 0;
+}

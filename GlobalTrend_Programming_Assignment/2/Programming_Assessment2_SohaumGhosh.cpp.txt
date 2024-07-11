@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isValid(string& s, int mid)
+{
+    int count[256] = { 0 };
+    bool found = false;
+    int distinct = 0;
+  
+    for (int i = 0; i < s.size(); i++) {
+        count[s[i]]++;
+        if (count[s[i]] == 1) {
+            distinct++;
+        }
+        if (i >= mid) {
+            count[s[i - mid]]--;
+            if (count[s[i - mid]] == 0) {
+                distinct--;
+            }
+        }
+        if (i >= mid - 1) {
+            if (distinct == mid) {
+                found = true;
+            }
+        }
+    }
+    return found;
+}
+
+int longestUniqueSubsttr(string& s)
+{
+    int len = s.length();
+    int ans = INT_MAX;
+    int low_bound = 1, high_bound = len;
+    while (low_bound <= high_bound) {
+        int mid = (low_bound + high_bound) / 2;
+        if (isValid(s,mid)) {
+              ans=mid;
+            low_bound = mid + 1;
+        }
+        else {
+            high_bound = mid - 1;
+        }
+    }
+    return ans;
+}
+
+int main()
+{
+    string str;
+    cout << "Enter string " << endl;
+    cin >> str;
+    int len = longestUniqueSubsttr(str);
+    cout << "The length of the longest non-repeating "
+            "character substring is "
+         << len;
+    return 0;
+}
